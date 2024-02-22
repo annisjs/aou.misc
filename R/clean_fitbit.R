@@ -14,6 +14,7 @@
 #' demographics_dat <- read_bucket("datasets/demographics.csv")
 #' fitbit_cleaned <- clean_fitbit(fitbit_dat,wear_time_dat,demographics[,c("person_id","date_of_birth")])
 #' }
+#' @import data.table
 #' @export
 clean_fitbit <- function(fitbit_dat,wear_time,date_of_birth)
 {
