@@ -24,6 +24,8 @@ clean_fitbit <- function(fitbit_dat,wear_time,date_of_birth)
   cat("\nDays: ",nrow(fitbit_dat))
 
   cat("\n\nRemoving days where wear time < 10 hrs.")
+  class(fitbit_dat)
+  print(head(fitbit_dat))
   fitbit_dat <- fitbit_dat[wear_time >= 10]
   print(head(fitbit_dat))
   #cat("\nN: ",length(unique(fitbit_dat$person_id)))
