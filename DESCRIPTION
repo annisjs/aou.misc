@@ -9,6 +9,7 @@ Description: Includes functions for cleaning demographics data of skipped respon
     for use in time-updated Cox models.
 License: GPL-3.0
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 Imports:
   data.table
 LazyData: true
