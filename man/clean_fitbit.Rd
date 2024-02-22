@@ -4,7 +4,7 @@
 \alias{clean_fitbit}
 \title{Cleans fitbit data}
 \usage{
-clean_fitbit(fitbit_dat, wear_time, date_of_birth)
+clean_fitbit(fitbit_dat, wear_time_dat, date_of_birth)
 }
 \arguments{
 \item{fitbit_dat}{a data.table representing the activity_summary table containing at least the following columns person_id, date, steps}
