@@ -16,9 +16,9 @@
 #' }
 #' @import data.table
 #' @export
-clean_fitbit <- function(fitbit_dat,wear_time,date_of_birth)
+clean_fitbit <- function(fitbit_dat,wear_time_dat,date_of_birth)
 {
-  fitbit_dat <- merge(fitbit_dat,wear_time,by=c("person_id","date"))
+  fitbit_dat <- merge(fitbit_dat,wear_time_dat,by=c("person_id","date"))
   cat("\nInitial cohort")
   cat("\nN: ",length(unique(fitbit_dat$person_id)))
   cat("\nDays: ",nrow(fitbit_dat))
