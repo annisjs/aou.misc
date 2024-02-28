@@ -16,7 +16,7 @@ recode_race_wbo <- function(race)
                       ,race == "None Indicated"           , as.character(NA)
                       ,race == "PMI: Skip"                , as.character(NA)
                       ,race == "Black or African American", "Black"
-                      ,race == "White"                    , as.character(NA)
+                      ,race == "White"                    , "White"
                       ,default =                            "Other"
                       )
 
