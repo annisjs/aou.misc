@@ -1,4 +1,4 @@
-#' Query and clean fitbit data and combines with ehr and demographics
+#' Query and clean fitbit data and combine with ehr
 #' 
 #' @param output_folder the folder to check for cached queries
 #' @param bucket the bucket to check for cached queries
@@ -17,5 +17,5 @@ clean_fitbit_with_ehr <- function(output_folder="datasets", bucket=NULL)
   fitbit_ehr_cohort <- fitbit_dat[,c("person_id")]
   fitbit_ehr_cohort <- fitbit_ehr_cohort[!duplicated(fitbit_ehr_cohort)]
   cat("\nFitbit + EHR cohort:",nrow(fitbit_ehr_cohort))
-  fitbit_dat
+  merge(fitbit_dat, dat$last_medical_encounter, by="person_id")
 }
