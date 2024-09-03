@@ -4,11 +4,6 @@
 #' @param data_of_birth a data.table containing person_id and date_of_birth columns
 #' @examples 
 #'\dontrun{
-#' library(aou.phenotyper2)
-#' output_folder <- "datasets"
-#' fitbit(output_folder)
-#' demographics(output_folder)
-#' wear_time(output_folder)
 #' fitbit_dat <- read_bucket("datasets/fitbit.csv")
 #' wear_time_dat <- read_bucket("datasets/wear_time.csv")
 #' demographics_dat <- read_bucket("datasets/demographics.csv")
