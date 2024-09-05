@@ -46,6 +46,7 @@ clean_sleep <- function(sleep_dat, date_of_birth)
   cat("\n\nRemoving subjects > 30% days < 4 hours sleep")
   sleep_dat[, proportion_lt_4hr_asleep := mean(minute_asleep < 4*60),.(person_id)]
   sleep_dat <- sleep_dat[proportion_lt_4hr_asleep <= .30]
+  sleep_dat$proportion_lt_4hr_asleep = NULL
   cat("\nN:",length(unique(sleep_dat$person_id)))
   cat("\nDays:",nrow(sleep_dat))  
   
