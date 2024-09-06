@@ -3,6 +3,7 @@
 export(backup_packages)
 export(clean_fitbit)
 export(clean_fitbit_with_ehr)
+export(clean_sleep)
 export(format_fitbit_cox)
 export(format_fitbit_sleep_activity_cox)
 export(format_sleep_cox)
