@@ -22,7 +22,7 @@ format_fitbit_cox <- function(fitbit,dx,last_medical_encounter)
   cat("\nDays:",nrow(merged_cox))
 
   merged_cox[, min_fitbit_date := min(date),.(person_id)]
-  merged_cox <- fitbit_dat[order(date)]
+  merged_cox <- merged_cox[order(date)]
   merged_cox[, days_from_start := as.numeric(date - min_fitbit_date),.(person_id)]
   merged_cox[, month := cut(days_from_start,seq(0,100000,30),include.lowest=T,right=F,labels=F)]
   merged_cox[, time1 := as.Date(min_fitbit_date) + lubridate::days((month-1)*30),.(person_id)]
