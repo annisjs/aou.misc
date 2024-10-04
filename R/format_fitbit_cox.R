@@ -147,7 +147,7 @@ format_fitbit_cox <- function(fitbit,dx,last_medical_encounter)
 
   merged_cox_agg$max_date <- lubridate::ymd(merged_cox_agg$max_date)
   merged_cox_agg$min_date <- lubridate::ymd(merged_cox_agg$min_date)
-  merged_cox_agg[,duration := as.numeric(max_date - min_date)]
+  merged_cox_agg[,duration := as.numeric(as.Date(max_date) - as.Date(min_date))]
 
   merged_cox_agg <- merge(merged_cox_agg,dx,by="person_id",all.x=T)
 
