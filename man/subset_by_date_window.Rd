@@ -15,15 +15,15 @@ subset_by_date_window(
 \arguments{
 \item{anchor_date}{the column name to be used as anchor}
 
+\item{date_col}{date column for the subset}
+
+\item{id_col}{grouping variable for anchoring}
+
 \item{fitbit_dat}{fitbit data data table}
 
 \item{before}{time range in the past}
 
 \item{after}{time range in the future}
-
-\item{date_column}{date column for the subset}
-
-\item{group_by}{grouping variable for anchoring}
 }
 \description{
 Subset fitbit data using an anchor date and a date range

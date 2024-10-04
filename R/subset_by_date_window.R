@@ -4,8 +4,8 @@
 #' @param anchor_date the column name to be used as anchor
 #' @param before time range in the past
 #' @param after time range in the future
-#' @param date_column date column for the subset 
-#' @param group_by grouping variable for anchoring
+#' @param date_col date column for the subset 
+#' @param id_col grouping variable for anchoring
 #' @examples 
 #'\dontrun{
 #' fitbit_dat <- subset_by_date_window(fitbit_dat, "covid_date", c(100,100))
