@@ -1,7 +1,7 @@
 Package: aou.misc
 Type: Package
 Title: Various functions for cleaning and formatting data in the All of Us Researcher's workbench
-Version: 0.1.0
+Version: 1.0.0
 Author: Jeffrey Annis
 Maintainer: Jeffrey Annis <jeffrey.s.annis@vumc.org>
 Description: Includes functions for cleaning demographics data of skipped responses,
