@@ -2,7 +2,7 @@
 % Please edit documentation in R/match_cohort_iterative.R
 \name{match_cohort_iterative}
 \alias{match_cohort_iterative}
-\title{Cleans fitbit data}
+\title{Matches cases with control using activity data iteratively}
 \usage{
 match_cohort_iterative(
   cases_dat,
@@ -51,7 +51,7 @@ match_cohort_iterative(
 a dataframe of matched control with corresponding cases and differences between flexible matched columns and baselines
 }
 \description{
-Cleans fitbit data
+Matches cases with control using activity data iteratively
 }
 \details{
 This algorithm follows the following steps to match the given cases to a control cohort:

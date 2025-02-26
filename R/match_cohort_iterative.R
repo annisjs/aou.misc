@@ -1,4 +1,4 @@
-#' Cleans fitbit data
+#' Matches cases with control using activity data iteratively
 #' @param cohort_dat a data.table representing the activity_summary table for the cohort to match containing at least the following columns person_id, date
 #' @param match_rate the number of control to match each case
 #' @param control_dat a data.table representing the activity_summary table for the available control candidates to match containing at least the following columns person_id, date
@@ -59,13 +59,13 @@ match_cohort_iterative = function(cases_dat,
   #window the cases and define person_ids to match
   if(!is.null(anchor_col_name)){
     if(!is.null(window_range)){
-      cases_dat = subset_by_date_window(cases_dat, anchor_col_name, before = window_range[[1]], after = window_range[[2]])
+      cases_dat = subset_by_date_window(cases_dat, anchor_col_name, before = -1*window_range[[1]], after = window_range[[2]])
     }
     if(!is.null(min_days_in_baseline) && !is.null(baseline_range)){
-      cases_dat = subset_by_min_days_in_range(cases_dat, window_range[[1]], window_range[[2]], min_days_in_baseline, anchor_col_name)
+      cases_dat = subset_by_min_days_in_range(cases_dat, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, anchor_col_name)
     }
   }
-  if(!is.na(rank)){
+  if(!is.null(rank)){
     cases_dat = cases_dat[order(get(rank))]
   }
   person_ids = cases_dat[!duplicated(person_id)]$person_id
@@ -76,7 +76,6 @@ match_cohort_iterative = function(cases_dat,
   #iterate over each cases to find matches
   for (pid in person_ids){
     p1_dt = subset(cases_dat, person_id == pid)
-    
     #subset controls datatable to obtain possible candidates using strict matching columns
     if (!is.null(strict_cols)){
       strict_matching_df = subset(p1_dt, select = strict_cols)
@@ -94,10 +93,10 @@ match_cohort_iterative = function(cases_dat,
     if(!is.null(anchor_col_name)){
       candidates[,(anchor_col_name):= as.IDate(p1_dt[[anchor_col_name]][1])]
       if(!is.null(window_range)){
-        candidates = subset_by_date_window(candidates, anchor_col_name, window_range)
+        candidates = subset_by_date_window(candidates, anchor_col_name, -1*window_range[[1]], window_range[[2]])
       } 
       if(!is.null(min_days_in_baseline)){
-        candidates = subset_by_min_days_in_range(candidates, baseline_range, min_days_in_baseline, anchor_col_name)
+        candidates = subset_by_min_days_in_range(candidates, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, anchor_col_name)
       }
       if(!is.null(fixed_baselines)){
         for (f_baseline in fixed_baselines){
@@ -119,7 +118,7 @@ match_cohort_iterative = function(cases_dat,
         for (baseline in baselines){
           p1_dt = merge(p1_dt, p1_dt[(as.numeric(date - get(anchor_col_name)) > baseline_range[[1]]) &
                                        (as.numeric(date - get(anchor_col_name)) < baseline_range[[2]]), 
-                                     .(V1 = mean(get(baseline))), .(person_id)],by="person_id")
+                                     .(V1 = mean(get(baseline))), .(person_id)],by="person_id")    
           p1_dt[,(baseline):=NULL]
           setnames(p1_dt, 'V1', paste0(baseline))
           candidates = merge(candidates, candidates[(as.numeric(date - get(anchor_col_name)) > baseline_range[[1]]) &

@@ -6,17 +6,17 @@
 \usage{
 subset_by_min_days_in_range(
   fitbit_dat,
-  before,
-  after,
+  range_start,
+  range_end,
   min_days_count,
   anchor_col_name,
   return_all = TRUE
 )
 }
 \arguments{
-\item{before}{time range in the past}
+\item{range_start}{start of time range - can be positive or negative}
 
-\item{after}{time range in the future}
+\item{range_end}{end of time range - can be positive or negative}
 
 \item{min_days_count}{minimum number of records to require for subsetting}
 
@@ -32,6 +32,6 @@ Subsets time series data using a minimum of records during given period relative
 \examples{
 \dontrun{
 fitbit_dat <- read_bucket("datasets/fitbit.csv")
-subset_by_min_days_in_range(fitbit_dat, (-365,0), 180, date)
+subset_by_min_days_in_range(fitbit_dat, -365,0, 180, date)
 }
 }
