@@ -7,23 +7,27 @@
 subset_by_date_window(
   dat,
   anchor_date,
-  date_range,
+  before,
+  after,
   date_col = "date",
-  id_col = "person_id"
+  id_col = "person_id",
+  return_all = TRUE
 )
 }
 \arguments{
 \item{anchor_date}{the column name to be used as anchor}
 
+\item{before}{time range in the past}
+
+\item{after}{time range in the future}
+
 \item{date_col}{date column for the subset}
 
 \item{id_col}{grouping variable for anchoring}
 
+\item{return_all}{either to return all dates for the subset of patients or just in the given window}
+
 \item{fitbit_dat}{fitbit data data table}
-
-\item{before}{time range in the past}
-
-\item{after}{time range in the future}
 }
 \description{
 Subset fitbit data using an anchor date and a date range
