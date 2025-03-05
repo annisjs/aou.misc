@@ -7,7 +7,7 @@
 recode_sex_fm(sex)
 }
 \arguments{
-\item{a}{character vector corresponding to the gender or sex column in the person table. Sets missing/skipped responses to NA.}
+\item{sex}{character vector corresponding to the gender or sex column in the person table. Sets missing/skipped responses to NA.}
 }
 \description{
 Recode sex to Male, Female

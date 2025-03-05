@@ -1,5 +1,5 @@
 #' Recode sex to Male, Female
-#' @param a character vector corresponding to the gender or sex column in the person table. Sets missing/skipped responses to NA.
+#' @param sex character vector corresponding to the gender or sex column in the person table. Sets missing/skipped responses to NA.
 #' @export
 recode_sex_fm <- function(sex)
 {
