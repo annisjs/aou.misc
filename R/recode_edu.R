@@ -15,7 +15,7 @@ recode_edu <- function(education_status)
   cat("\nHighest Grade: Never Attended ->no_college")
   cat("\nHighest Grade: One Through Four ->no_college")
   cat("\nLess than a high school degree or equivalent ->no_college")
-  fcase(
+  data.table::fcase(
         education_status == "PMI: Skip", as.character(NA),
         education_status == "PMI: Prefer Not To Answer", as.character(NA),
         education_status == "College graduate or advanced degree","college",
