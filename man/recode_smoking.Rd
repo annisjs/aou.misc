@@ -7,7 +7,7 @@
 recode_smoking(smoking_status)
 }
 \arguments{
-\item{smoking_status}{character vector corresponding to the education level}
+\item{smoking_status}{character vector corresponding to the smoking status}
 }
 \description{
 Recode smoking status

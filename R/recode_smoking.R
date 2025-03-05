@@ -1,5 +1,5 @@
 #' Recode smoking status
-#' @param smoking_status character vector corresponding to the education level
+#' @param smoking_status character vector corresponding to the smoking status
 #' @export
 recode_smoking <- function(smoking_status)
 {
