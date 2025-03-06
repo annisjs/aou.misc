@@ -6,9 +6,9 @@ recode_smoking <- function(smoking_status)
     cat("Found the following levels for ")
     print(table(smoking_status))
     cat("\nMapping:")
-    c("\n100 Cigs Lifetime: No","100 Cigs Lifetime: No")
-    c("\n100 Cigs Lifetime: Yes","100 Cigs Lifetime: Yes")
-    c("\nDefault is NA")
+    cat("\n100 Cigs Lifetime: No","100 Cigs Lifetime: No")
+    cat("\n100 Cigs Lifetime: Yes","100 Cigs Lifetime: Yes")
+    cat("\nDefault is NA")
     data.table::fcase(
         smoking_status == "PMI: Dont Know", as.character(NA),
         smoking_status == "PMI: Skip", as.character(NA),
