@@ -67,7 +67,7 @@ match_cohort_iterative = function(cases_dat,
     }
   }
   if(!is.null(rank)){
-    cases_dat = cases_dat[order(get(rank))]
+    cases_dat = cases_dat[order(get(rank)),]
   }
   person_ids = cases_dat[!duplicated(person_id)]$person_id
   print(str_glue("There are {length(person_ids)} cases to match and there are {length(controls_dat[!duplicated(person_id)]$person_id)} controls to match!"))
