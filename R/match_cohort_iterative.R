@@ -11,7 +11,7 @@
 #' @param baseline_range baseline_range given in time to event to compute baseline averages and find closest fixed baselines
 #' @param anchor_col_name the column name for the anchor date used for baselines and windowing
 #' @param min_days_in_baseline the required number of days in baseline applied to both cases and control
-#' @param rank ordering column for cases before the iteration
+#' @param case_iter_order ordering column for cases before the iteration
 #' 
 #' @return a dataframe of matched control with corresponding cases and differences between flexible matched columns and baselines
 #' @details
@@ -38,7 +38,7 @@
 #'                                                       baseline_range = c(-180, 0),
 #'                                                       anchor_col_name = "date",
 #'                                                       min_days_in_baseline = 30,
-#'                                                       rank="bmi")
+#'                                                       case_iter_order="bmi")
 
 #' }
 #' @import data.table
@@ -56,7 +56,7 @@ match_cohort_iterative = function(cases_dat,
                                   baseline_range = NULL, 
                                   anchor_col_name = NULL, 
                                   min_days_in_baseline=NULL,
-                                  rank=NULL){
+                                  case_iter_order=NULL){
   #window the cases and define person_ids to match
   if(!is.null(anchor_col_name)){
     if(!is.null(window_range)){
@@ -66,8 +66,8 @@ match_cohort_iterative = function(cases_dat,
       cases_dat = subset_by_min_days_in_range(cases_dat, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, date_col, anchor_col_name)
     }
   }
-  if(!is.null(rank)){
-    cases_dat = cases_dat[order(get(rank)),]
+  if(!is.null(case_iter_order)){
+    cases_dat = cases_dat[order(get(case_iter_order)),]
   }
   person_ids = cases_dat[!duplicated(person_id)]$person_id
   print(str_glue("There are {length(person_ids)} cases to match and there are {length(controls_dat[!duplicated(person_id)]$person_id)} controls to match!"))
