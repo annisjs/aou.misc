@@ -46,6 +46,7 @@
 match_cohort_iterative = function(cases_dat,
                                   match_rate, 
                                   controls_dat,
+                                  date_col = "date",
                                   window_range = NULL,
                                   strict_cols = NULL, 
                                   flex_cols = NULL, 
@@ -59,10 +60,10 @@ match_cohort_iterative = function(cases_dat,
   #window the cases and define person_ids to match
   if(!is.null(anchor_col_name)){
     if(!is.null(window_range)){
-      cases_dat = subset_by_date_window(cases_dat, anchor_col_name, before = -1*window_range[[1]], after = window_range[[2]])
+      cases_dat = subset_by_date_window(cases_dat, anchor_col_name, before = -1*window_range[[1]], after = window_range[[2]], date_col = date_col)
     }
     if(!is.null(min_days_in_baseline) && !is.null(baseline_range)){
-      cases_dat = subset_by_min_days_in_range(cases_dat, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, anchor_col_name)
+      cases_dat = subset_by_min_days_in_range(cases_dat, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, date_col, anchor_col_name)
     }
   }
   if(!is.null(rank)){
@@ -93,10 +94,10 @@ match_cohort_iterative = function(cases_dat,
     if(!is.null(anchor_col_name)){
       candidates[,(anchor_col_name):= as.IDate(p1_dt[[anchor_col_name]][1])]
       if(!is.null(window_range)){
-        candidates = subset_by_date_window(candidates, anchor_col_name, -1*window_range[[1]], window_range[[2]])
+        candidates = subset_by_date_window(candidates, anchor_col_name, -1*window_range[[1]], window_range[[2]], date_col)
       } 
       if(!is.null(min_days_in_baseline)){
-        candidates = subset_by_min_days_in_range(candidates, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, anchor_col_name)
+        candidates = subset_by_min_days_in_range(candidates, baseline_range[[1]], baseline_range[[2]], min_days_in_baseline, date_col, anchor_col_name)
       }
       if(!is.null(fixed_baselines)){
         for (f_baseline in fixed_baselines){
@@ -110,12 +111,12 @@ match_cohort_iterative = function(cases_dat,
           
           candidates[,(f_baseline):=candidates_subset[1, get(f_baseline)]]
         }
-        f_baseline_match = paste(baselines, collapse = " + ")
+        f_baseline_match = paste(baseline_cols, collapse = " + ")
       }else{
         f_baseline_match = NULL
       }
-      if(!is.null(baselines) & !is.null(baseline_range)){
-        for (baseline in baselines){
+      if(!is.null(baseline_cols) & !is.null(baseline_range)){
+        for (baseline in baseline_cols){
           p1_dt = merge(p1_dt, p1_dt[(as.numeric(date - get(anchor_col_name)) > baseline_range[[1]]) &
                                        (as.numeric(date - get(anchor_col_name)) < baseline_range[[2]]), 
                                      .(V1 = mean(get(baseline))), .(person_id)],by="person_id")    
@@ -128,7 +129,7 @@ match_cohort_iterative = function(cases_dat,
           candidates[,(baseline):=NULL]
           setnames(candidates, 'V1', paste0(baseline))
         }
-        baseline_match = paste(baselines, collapse = " + ")
+        baseline_match = paste(baseline_cols, collapse = " + ")
       }else{
         baseline_match = NULL
       }
@@ -169,22 +170,22 @@ match_cohort_iterative = function(cases_dat,
                            distance = "mahalanobis")
       matched_dat <- match.data(match_out, data = cohort_to_match)
       matched_control = matched_dat[!(condition)]
-      matched_control = subset(matched_control, select=unique(c("person_id",baselines,fixed_baselines, flex_cols, strict_cols, names(range_cols))))
+      matched_control = subset(matched_control, select=unique(c("person_id",baseline_cols,fixed_baselines, flex_cols, strict_cols, names(range_cols))))
       
       matched_cases = matched_dat[(condition)]
-      matched_cases = subset(matched_cases, select=unique(c("person_id",baselines, fixed_baselines,flex_cols, names(range_cols))))
+      matched_cases = subset(matched_cases, select=unique(c("person_id",baseline_cols, fixed_baselines,flex_cols, names(range_cols))))
     }else{
       matched_control = sample(cohort_to_match[!(condition)], match_rate)
       matched_control = subset(matched_control, select = c(strict_cols, names(range_cols)))
       matched_cases = subset(p1_dt, select=unique(c("person_id", names(range_cols))))
       
       matched_cases = cohort_to_match[(condition)]
-      matched_cases = subset(matched_cases, select=unique(c("person_id",baselines, flex_cols, names(range_cols))))
+      matched_cases = subset(matched_cases, select=unique(c("person_id",baseline_cols, flex_cols, names(range_cols))))
     }
     colnames(matched_cases) = paste0("case_", colnames(matched_cases))
     
     final_match = cbind(matched_control, matched_cases)
-    for (relax_matched_col in unique(c(flex_cols, baselines,fixed_baselines, names(range_cols)))){
+    for (relax_matched_col in unique(c(flex_cols, baseline_cols,fixed_baselines, names(range_cols)))){
       final_match[[paste0(relax_matched_col, "_diff")]] = final_match[[relax_matched_col]] - final_match[[paste0("case_", relax_matched_col)]]
     }
     match_list[[as.character(pid)]] = final_match

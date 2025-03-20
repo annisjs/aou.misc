@@ -8,6 +8,7 @@ match_cohort_iterative(
   cases_dat,
   match_rate,
   controls_dat,
+  date_col = "date",
   window_range = NULL,
   strict_cols = NULL,
   flex_cols = NULL,
