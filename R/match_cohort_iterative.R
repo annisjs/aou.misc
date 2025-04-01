@@ -117,13 +117,13 @@ match_cohort_iterative = function(cases_dat,
       }
       if(!is.null(baseline_cols) & !is.null(baseline_range)){
         for (baseline in baseline_cols){
-          p1_dt = merge(p1_dt, p1_dt[(as.numeric(date - get(anchor_col_name)) > baseline_range[[1]]) &
-                                       (as.numeric(date - get(anchor_col_name)) < baseline_range[[2]]), 
+          p1_dt = merge(p1_dt, p1_dt[(as.numeric(date - get(anchor_col_name)) >= baseline_range[[1]]) &
+                                       (as.numeric(date - get(anchor_col_name)) <= baseline_range[[2]]), 
                                      .(V1 = mean(get(baseline))), .(person_id)],by="person_id")    
           p1_dt[,(baseline):=NULL]
           setnames(p1_dt, 'V1', paste0(baseline))
-          candidates = merge(candidates, candidates[(as.numeric(date - get(anchor_col_name)) > baseline_range[[1]]) &
-                                                      (as.numeric(date - get(anchor_col_name)) < baseline_range[[2]]), 
+          candidates = merge(candidates, candidates[(as.numeric(date - get(anchor_col_name)) >= baseline_range[[1]]) &
+                                                      (as.numeric(date - get(anchor_col_name)) <= baseline_range[[2]]), 
                                                     .(V1 = mean(get(baseline))), .(person_id)],by="person_id")
           
           candidates[,(baseline):=NULL]
