@@ -13,9 +13,9 @@
 #' }
 #' @import data.table
 #' @export
-subset_by_min_days_in_range = function(fitbit_dat, range_start, range_end, min_days_count, date_col, anchor_date, return_all=TRUE){
+subset_by_min_days_in_range = function(fitbit_dat, range_start, range_end, min_days_count, date_col, anchor, return_all=TRUE){
   dat = fitbit_dat
-  dat[, tte := as.numeric(get(date_col) - get(anchor_col_name))]
+  dat[, tte := as.numeric(get(date_col) - get(anchor))]
   dat_in_range = dat[(tte >= range_start) & (tte <= range_end)]
   if(!return_all){
     dat = merge(dat_in_range, dat_in_range[, .(days_in_range = .N), .(person_id)],
