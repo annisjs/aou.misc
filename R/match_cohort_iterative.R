@@ -111,7 +111,7 @@ match_cohort_iterative = function(cases_dat,
           
           candidates[,(f_baseline):=candidates_subset[1, get(f_baseline)]]
         }
-        f_baseline_match = paste(baseline_cols, collapse = " + ")
+        f_baseline_match = paste(fixed_baselines, collapse = " + ")
       }else{
         f_baseline_match = NULL
       }
@@ -156,11 +156,11 @@ match_cohort_iterative = function(cases_dat,
       }
     }
     if(!is.null(f_baseline_match)){
-      flex_match = paste(flex_cols, collapse = " + ")
+      fixed_match = paste(fixed_baselines, collapse = " + ")
       if (!is.null(f)){
-        f = paste0(f," + {f_baseline_match}")
+        f = paste0(f," + {fixed_match}")
       }else{
-        f = "condition ~ {baseline_match}"
+        f = "condition ~ {fixed_match}"
       }
     }
     if(!is.null(f)){
