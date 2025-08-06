@@ -35,8 +35,14 @@ clean_sleep <- function(sleep_dat, date_of_birth)
   cat("\nDays:",nrow(sleep_dat))
   
   cat("\n\nRemoving nights where age < 18")
+  d <- format(seq(min(sleep_dat$sleep_date), 
+                  max(sleep_dat$sleep_date), "day"),
+                  "%Y-%m-%d"
+            )
+  sleep_dat[, sleep_date := as.Date(d, "%Y-%m-%d")[match(sleep_date, d)]] 
+  date_of_birth[, date_of_birth := as.Date(date_of_birth)]
   sleep_dat <- merge(sleep_dat, date_of_birth[,c("person_id","date_of_birth")],by="person_id")
-  sleep_dat[, age :=  as.numeric(as.Date(sleep_date) - as.Date(date_of_birth)) / 365.25]
+  sleep_dat[, age :=  as.numeric(sleep_date - date_of_birth) / 365.25]
   sleep_dat <- sleep_dat[age >= 18]
   sleep_dat$date_of_birth = NULL
   sleep_dat$age = NULL
