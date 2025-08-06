@@ -34,8 +34,14 @@ clean_fitbit <- function(fitbit_dat,wear_time_dat,date_of_birth)
   cat("\nDays: ",nrow(fitbit_dat))
 
   cat("\n\nRemoving days where age < 18.")
+  d <- format(seq(min(fitbit_dat$date), 
+                  max(fitbit_dat$date), "day"),
+                  "%Y-%m-%d"
+            )
+  fitbit_dat[, date := as.Date(d, "%Y-%m-%d")[match(date, d)]]
+  date_of_birth[, date_of_birth := as.Date(date_of_birth)]
   fitbit_dat <- merge(fitbit_dat,date_of_birth,by="person_id",all.x=TRUE)
-  fitbit_dat[,age := as.numeric(as.Date(date) - as.Date(date_of_birth))/365.25]
+  fitbit_dat[,age := as.numeric(date - date_of_birth)/365.25]
   fitbit_dat <- fitbit_dat[age >= 18]
   cat("\nN: ",length(unique(fitbit_dat$person_id)))
   cat("\nDays: ",nrow(fitbit_dat))
